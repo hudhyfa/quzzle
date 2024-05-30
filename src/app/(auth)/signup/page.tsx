@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <div className="container">
       <div className={styles.mainContent}>
@@ -10,7 +10,7 @@ export default function LoginPage() {
             <div className={styles.loginLogo}>
               <h2>Qwzzle.io</h2>
               <h3>Welcome back</h3>
-              <p>Please enter your details to sign in.</p>
+              <p>Please enter your details to Sign Up.</p>
             </div>
             <div className={styles.thirdPartyLogins}>
               <button className={styles.googleBox}>
@@ -39,13 +39,17 @@ export default function LoginPage() {
                   Password <br />
                 </label>
                   <input type="password" placeholder="enter password"  /> <br />
-                <button>Sign In</button>
+                <label htmlFor="">
+                  Re-enter Password <br />
+                </label>
+                  <input type="password" placeholder="re-enter password"  /> <br />
+                <button>Sign Up</button>
               </form>
               <div className={styles.signupLink}>
                 <p>
-                  Don't have an account yet?{" "}
+                  Already have an account yet?{" "}
                   <span>
-                    <Link href={"/signup"} style={{textDecoration:"none", fontWeight:"400", color:"black"}}>Sign Up</Link>
+                    <Link href={"/login"} style={{textDecoration:"none", fontWeight:"400", color:"black"}}>Sign In</Link>
                   </span>
                 </p>
               </div>
@@ -53,7 +57,7 @@ export default function LoginPage() {
           </div>
         </div>
         <div className={styles.leftSide}>
-          <img src="/loginSampleFour.avif" alt="sample cover photo" />
+          <img src="/signupSample.avif" alt="sample cover photo" />
         </div>
       </div>
     </div>
