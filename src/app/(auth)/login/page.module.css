@@ -129,10 +129,12 @@
     border: 1px solid rgb(227, 227, 227);
     border-radius: 15px;
     font-size: 1rem;
-}
-
-.loginForm form input::placeholder{
+    font-weight: 300;
+  }
+  
+  .loginForm form input::placeholder{
     font-size: 1rem;
+    font-weight: 300;
 }
 
 .loginForm button{
