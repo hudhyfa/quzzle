@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function SignupPage() {
   const [error, setError] = useState("");
-  const router = useRouter();
+  const {data: session, status: sessionStatus} = useSession();
+  const router= useRouter();
+
+  useEffect(() => {
+    if(sessionStatus === "authenticated") {
+      router.replace('/quizfeed')
+    }
+  }, [sessionStatus, router]);
 
   const isValidEmail = (email: string): boolean => {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -58,80 +66,87 @@ export default function SignupPage() {
       console.log(error);
     }
   };
+
+  if(sessionStatus === "loading") {
+    return <h1>...loading</h1>
+  };
   return (
-    <div className="container">
-      <div className={styles.mainContent}>
-        <div className={styles.rightSide}>
-          <div className={styles.content}>
-            <div className={styles.loginLogo}>
-              <h2>Qwzzle.io</h2>
-              <h3>Welcome back</h3>
-              <p>Please enter your details to Sign Up.</p>
-            </div>
-            <div className={styles.thirdPartyLogins}>
-              <button className={styles.googleBox}>
-                <div className={styles.googleLogo}>
-                  <img src="/googleLogo.png" alt="" />
+    sessionStatus !== "authenticated" && (
+
+      <div className="container">
+        <div className={styles.mainContent}>
+          <div className={styles.rightSide}>
+            <div className={styles.content}>
+              <div className={styles.loginLogo}>
+                <h2>Qwzzle.io</h2>
+                <h3>Welcome back</h3>
+                <p>Please enter your details to Sign Up.</p>
+              </div>
+              <div className={styles.thirdPartyLogins}>
+                <button className={styles.googleBox}>
+                  <div className={styles.googleLogo}>
+                    <img src="/googleLogo.png" alt="" />
+                  </div>
+                </button>
+                <button className={styles.googleBox}>
+                  <div className={styles.googleLogo}>
+                    <img src="/githubLogoAgain.png" alt="" />
+                  </div>
+                </button>
+                <button className={styles.googleBox}>
+                  <div className={styles.googleLogo}>
+                    <img src="/facebookLogoTwo.png" alt="" />
+                  </div>
+                </button>
+              </div>
+              <div className={styles.loginForm}>
+                <form onSubmit={handleSubmit}>
+                  <label htmlFor="">
+                    Username <br />
+                  </label>
+                  <input type="text" placeholder="enter username" /> <br />
+                  <label htmlFor="">
+                    E-mail address <br />
+                  </label>
+                  <input type="email" placeholder="enter email" /> <br />
+                  <label htmlFor="">
+                    Password <br />
+                  </label>
+                  <input type="password" placeholder="enter password" /> <br />
+                  <label htmlFor="">
+                    Re-enter Password <br />
+                  </label>
+                  <input type="password" placeholder="re-enter password" /> <br />
+                  <button type="submit">Sign Up</button>
+                  <p style={{ color: "red", marginTop: "5px" }}>
+                    {error && error}
+                  </p>
+                </form>
+                <div className={styles.signupLink}>
+                  <p>
+                    Already have an account yet?{" "}
+                    <span>
+                      <Link
+                        href={"/login"}
+                        style={{
+                          textDecoration: "none",
+                          fontWeight: "400",
+                          color: "black",
+                        }}
+                      >
+                        Sign In
+                      </Link>
+                    </span>
+                  </p>
                 </div>
-              </button>
-              <button className={styles.googleBox}>
-                <div className={styles.googleLogo}>
-                  <img src="/githubLogoAgain.png" alt="" />
-                </div>
-              </button>
-              <button className={styles.googleBox}>
-                <div className={styles.googleLogo}>
-                  <img src="/facebookLogoTwo.png" alt="" />
-                </div>
-              </button>
-            </div>
-            <div className={styles.loginForm}>
-              <form onSubmit={handleSubmit}>
-                <label htmlFor="">
-                  Username <br />
-                </label>
-                <input type="text" placeholder="enter username" /> <br />
-                <label htmlFor="">
-                  E-mail address <br />
-                </label>
-                <input type="email" placeholder="enter email" /> <br />
-                <label htmlFor="">
-                  Password <br />
-                </label>
-                <input type="password" placeholder="enter password" /> <br />
-                <label htmlFor="">
-                  Re-enter Password <br />
-                </label>
-                <input type="password" placeholder="re-enter password" /> <br />
-                <button type="submit">Sign Up</button>
-                <p style={{ color: "red", marginTop: "5px" }}>
-                  {error && error}
-                </p>
-              </form>
-              <div className={styles.signupLink}>
-                <p>
-                  Already have an account yet?{" "}
-                  <span>
-                    <Link
-                      href={"/login"}
-                      style={{
-                        textDecoration: "none",
-                        fontWeight: "400",
-                        color: "black",
-                      }}
-                    >
-                      Sign In
-                    </Link>
-                  </span>
-                </p>
               </div>
             </div>
           </div>
-        </div>
-        <div className={styles.leftSide}>
-          <img src="/signupSample.avif" alt="sample cover photo" />
+          <div className={styles.leftSide}>
+            <img src="/signupSample.avif" alt="sample cover photo" />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    )
+    );
 }
