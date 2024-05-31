@@ -64,3 +64,10 @@
     padding: 10px;
 }
 
+
+.layout-container {
+    /* High z-index to ensure layout does not block interaction with the modal */
+    z-index: 1000;
+    /* Other styles as needed */
+  }
+  

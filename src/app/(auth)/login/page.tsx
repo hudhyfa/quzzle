@@ -1,7 +1,40 @@
+"use client"
+
 import Link from "next/link";
 import styles from "./page.module.css";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const [error, setError] = useState("");
+  const router= useRouter();
+
+  const isValidEmail = (email: string): boolean => {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  }
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    if(!isValidEmail(email)) {
+      setError("Invalid email address");
+      return;
+    }
+    if(!password || password.length < 8) {
+      setError("Invalid password");
+      return;
+    }
+
+    try {
+      router.push('/login')
+    } catch (error) {
+      setError("Error, try again");
+      console.log(error);
+    }
+  }
+
   return (
     <div className="container">
       <div className={styles.mainContent}>
@@ -30,7 +63,7 @@ export default function LoginPage() {
               </button>
             </div>
             <div className={styles.loginForm}>
-              <form action="">
+              <form onSubmit={handleSubmit}>
                 <label htmlFor="">
                   E-mail address <br />
                 </label>
@@ -39,7 +72,8 @@ export default function LoginPage() {
                   Password <br />
                 </label>
                   <input type="password" placeholder="enter password"  /> <br />
-                <button>Sign In</button>
+                <button type="submit">Sign In</button>
+                <p style={{color:"red", marginTop:"5px"}}>{error && error}</p>
               </form>
               <div className={styles.signupLink}>
                 <p>
