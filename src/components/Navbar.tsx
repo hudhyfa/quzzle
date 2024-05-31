@@ -19,7 +19,7 @@ export default function Navbar() {
               <Button color="white" bgColor="black" title="Login" />
             </Link>
           ) : (
-            <button style={{}} onClick={() => signOut()}>Logout</button>
+            <button className="logout-btn" onClick={() => signOut()}>Logout</button>
           )}
         </div>
       </div>

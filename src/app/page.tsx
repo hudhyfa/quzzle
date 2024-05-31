@@ -23,11 +23,11 @@ export default function Home() {
               participating in engaging quizzes.
             </p>
             <div className="mainButtons">
-              <Link href={"/"}>
+              <Link href={"/create-quiz"}>
                 <Button color="white" bgColor="black" title="Create" />
               </Link>
               &nbsp;&nbsp;
-              <Link href={"/"}>
+              <Link href={"/quizfeed"}>
                 <Button color="white" bgColor="black" title="Let's go" />
               </Link>
             </div>

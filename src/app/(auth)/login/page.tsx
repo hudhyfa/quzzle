@@ -5,6 +5,8 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import Loading from "@/components/Loading";
+
 
 export default function LoginPage() {
   const [error, setError] = useState("");
@@ -50,7 +52,7 @@ export default function LoginPage() {
   };
 
   if (sessionStatus === "loading") {
-    return <h1>...loading</h1>;
+    return <Loading />;
   }
 
   return (

@@ -70,4 +70,21 @@
     z-index: 1000;
     /* Other styles as needed */
   }
+
+  .logout-btn {
+    width: auto;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 10px 20px;
+    transition: 0.3s ease-in-out;
+  }
+
+  .logout-btn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    border: none;
+  }
   

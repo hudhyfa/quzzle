@@ -3,7 +3,7 @@ import connect from '@/utils/db';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 
-export async function POST(request: Request) {
+export async function POST(request: Request):Promise<Response> {
     await connect();
     const {username, email, password} = await request.json();
     const existingUser = await User.findOne({email: email});
