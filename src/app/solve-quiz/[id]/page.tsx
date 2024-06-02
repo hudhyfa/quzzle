@@ -35,6 +35,7 @@ export default async function SolveQuiz({ params }: Props) {
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
   const [checked, setchecked] = useState(false);
   const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
 
   const data = await fetchQuizData();
   const quizData = data.quiz;
@@ -53,14 +54,29 @@ export default async function SolveQuiz({ params }: Props) {
     }
   }
 
-  function onSelectedAnswer(ans: string, index: any) {
+  function onSelectedAnswer(ans: string, index: number | any) {
     setchecked(true);
     setSelectedAnswerIndex(index);
     if(currentQuestionData.correctAnswer === ans) setScore((prev) => prev + 1);
   }
 
+  function handleNextBtn() {
+    setCurrentQuestionCount(prev => prev + 1);
+    setchecked(false);
+    setSelectedAnswerIndex(null);
+    if(currentQuestionCount === qna.length) {
+      setShowResult(true);
+    }
+  }
+
   return (
     <>
+    {showResult ? (
+      <div className="">
+        <h2>Score: {score}</h2>
+      </div>
+    ): (
+      
       <div className={styles.mainContent}>
         <div className={styles.leftPart}>
           <div className={styles.questionCount}>
@@ -83,19 +99,23 @@ export default async function SolveQuiz({ params }: Props) {
               <h4>Select Answer</h4>
             </div>
             <div className={styles.optionList} id="options">
-              {currentQuestionData.answers.map((ans: any, index: number) => {
+              {currentQuestionData.answers.map((ans: string, index: number) => {
                 return (
                     <>
-                        <li key={index} onClick={() => onSelectedAnswer(ans, index)}>{ans}</li>
+                        <li key={index} onClick={() => onSelectedAnswer(ans, index)} className={index === selectedAnswerIndex ? styles.selectedOption: styles.nonSelectedOption}>{ans}</li>
                     </>
                 )
               })}
-
-              <button>asdf</button>
+              {checked ? (
+                <button className={styles.nextButton} onClick={handleNextBtn}>Next</button>
+              ): (
+                <button disabled className={styles.disabledButton}>Next</button>
+              )}
             </div>
           </div>
         </div>
       </div>
+    )}
     </>
   );
 }
